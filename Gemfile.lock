@@ -20,6 +20,9 @@ GEM
       capistrano (~> 3.1)
       capistrano-composer (~> 0.0.3)
       capistrano-file-permissions (~> 1.0)
+    capistrano-symfony-doctrine (0.2.10)
+      capistrano (>= 3.1.0)
+      capistrano-symfony (>= 0.4.0)
     i18n (0.7.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -36,6 +39,7 @@ DEPENDENCIES
   capistrano (~> 3.4)
   capistrano-supervisor
   capistrano-symfony (~> 1.0.0.rc1)
+  capistrano-symfony-doctrine
 
 BUNDLED WITH
    1.13.6

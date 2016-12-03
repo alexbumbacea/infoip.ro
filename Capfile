@@ -3,6 +3,7 @@ require "capistrano/setup"
 
 # Include default deployment tasks
 require "capistrano/deploy"
+require "capistrano/console"
 
 # Include symfony
 require 'capistrano/symfony'

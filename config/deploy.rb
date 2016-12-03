@@ -4,7 +4,6 @@ lock '3.6.1'
 set :application, 'infoip.ro'
 set :repo_url, 'git@github.com:alexbumbacea/infoip.ro.git'
 set :deploy_via, :remote_cache
-server 'infoip.ro', roles: %w{app web db main primary}
 
 
 # Default branch is :master
@@ -22,31 +21,46 @@ set :keep_releases, 5
 set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 
 
+# set :format, :pretty
+set :log_level, :debug
 
-after "deploy:restart", "deploy:cleanup"
-before "deploy:restart", "deploy:changeowner"
-namespace :deploy do
-  task "changeowner" do
-    sudo "chown -R www-data:www-data #{current_release}"
-  end
-end
+set :use_set_permissions,   true
+set :permission_method,     :chown
+set :file_permissions_paths, ["var/logs","var/sessions", "var"]
+set :file_permissions_users, ["www-data"]
+set :file_permissions_groups, ["www-data"]
+set :file_permissions_chmod_mode, "0777"
+
+
+SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
 
 namespace :nginx do
   task "start" do
     desc "Start NGINX"
-    sudo "systemctl start nginx.service"
+    on roles(:app) do
+      sudo "systemctl start nginx.service"
+    end
   end
   task "stop" do
     desc "Stop NGINX"
-    sudo "systemctl stop nginx.service"
+    on roles(:app) do
+      sudo "systemctl stop nginx.service"
+    end
   end
   task "reload" do
     desc "Stop NGINX"
-    sudo "systemctl reload nginx.service"
+    on roles(:app) do
+      sudo "systemctl reload nginx.service"
+    end
   end
   task "restart" do
     desc "Stop NGINX"
-    sudo "systemctl restart nginx.service"
+    on roles(:app) do
+      sudo "systemctl restart nginx.service"
+    end
   end
-  after "deploy:restart", "nginx:reload"
 end
+
+after 'deploy:publishing', 'deploy:restart'
+after "deploy:restart", "nginx:reload"
+
