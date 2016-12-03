@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table table-bordered">
+        <tr>
+            <th>IP:</th>
+            <td>{{ ip }}</td>
+        </tr>
+        <tr>
+            <th>Provider:</th>
+            <td>{{ provider }}</td>
+        </tr>
+        <tr>
+            <th>Browser Locale:</th>
+            <td>{{ locale }}</td>
+        </tr>
+    </table>
+{% endblock %}

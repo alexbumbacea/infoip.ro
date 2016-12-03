@@ -7,3 +7,24 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    whois:
+        class: Whois
+    info:
+        class: AppBundle\Service\IpInfo
+        calls:
+            - ['setWhoisService', ["@whois"]]
+
+    predis:
+        class: Predis\Client
+    cache.redis:
+        class: CacheBundle\Service\RedisCache
+        calls:
+            - [ setRedis, ['@predis']]
+
+    cache.aspect:
+        class: CacheBundle\DependencyInjection\CachingAspect
+        calls:
+            - [setLogger, ['@monolog.logger']]
+            - [setCacheService, ['@cache.redis']]
+        tags:
+            - { name: goaop.aspect }
