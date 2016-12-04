@@ -22,11 +22,3 @@ services:
         class: CacheBundle\Service\RedisCache
         calls:
             - [ setRedis, ['@predis']]
-
-    cache.aspect:
-        class: CacheBundle\DependencyInjection\CachingAspect
-        calls:
-            - [setLogger, ['@monolog.logger']]
-            - [setCacheService, ['@cache.redis']]
-        tags:
-            - { name: goaop.aspect }
