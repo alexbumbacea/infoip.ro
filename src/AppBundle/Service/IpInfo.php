@@ -41,7 +41,6 @@ class IpInfo
             return $this->lookup($ip)['regrinfo']['owner']['organization'][0];
 
         } catch (\Throwable $e) {
-            var_dump($e);
             return 'Unkown';
         }
     }
