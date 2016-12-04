@@ -13,6 +13,8 @@ services:
         class: AppBundle\Service\IpInfo
         calls:
             - ['setWhoisService', ["@whois"]]
+        tags:
+            - { name: cacheable.service }
 
     predis:
         class: Predis\Client

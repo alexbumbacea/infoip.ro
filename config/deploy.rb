@@ -30,6 +30,10 @@ set :file_permissions_paths, ["var/logs","var/sessions", "var"]
 set :file_permissions_users, ["www-data"]
 set :file_permissions_groups, ["www-data"]
 set :file_permissions_chmod_mode, "0777"
+set :composer_dump_autoload_flags, ''
+set :composer_install_flags, '--no-dev --no-interaction --quiet'
+
+
 
 
 SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
@@ -63,4 +67,5 @@ end
 
 after 'deploy:publishing', 'deploy:restart'
 after "deploy:restart", "nginx:reload"
+
 
