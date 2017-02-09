@@ -7,6 +7,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
+        error_reporting(E_ALL - E_DEPRECATED);
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
