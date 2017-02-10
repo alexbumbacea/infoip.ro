@@ -1,6 +1,3 @@
-# config valid only for current version of Capistrano
-lock '3.6.1'
-
 set :application, 'infoip.ro'
 set :repo_url, 'git@github.com:alexbumbacea/infoip.ro.git'
 set :deploy_via, :remote_cache
@@ -12,13 +9,8 @@ set :deploy_via, :remote_cache
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/var/www/symfony.infoip.ro'
 
-# Default value for :scm is :git
-set :scm, :git
-
 # Default value for keep_releases is 5
 set :keep_releases, 5
-
-set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 
 
 # set :format, :pretty
@@ -27,8 +19,8 @@ set :log_level, :debug
 set :use_set_permissions,   true
 set :permission_method,     :chown
 set :file_permissions_paths, ["var/logs","var/sessions", "var"]
-set :file_permissions_users, ["www-data"]
-set :file_permissions_groups, ["www-data"]
+set :file_permissions_users, ["apache"]
+set :file_permissions_groups, ["apache"]
 set :file_permissions_chmod_mode, "0777"
 set :composer_dump_autoload_flags, ''
 set :composer_install_flags, '--no-dev --no-interaction --quiet'
@@ -37,6 +29,8 @@ set :composer_install_flags, '--no-dev --no-interaction --quiet'
 
 
 SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
+
+after "deploy:starting", 'composer:install_executable'
 
 namespace :nginx do
   task "start" do
